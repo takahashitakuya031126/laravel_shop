@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use App\Models\Stock;
 use App\Models\Cart;
+use App\Mail\Thanks;
 
 class ShopController extends Controller
 {
@@ -43,7 +45,8 @@ class ShopController extends Controller
     
     public function checkout(Cart $cart)
     {
-        $checkout_info = $cart->checkoutCart();
+        $cart->checkoutCart();
+        Mail::to('larashop@example.com')->send(new Thanks);
         return view('checkout');
     }
 }
